@@ -17,18 +17,47 @@ const DetailsContent = styled.div`
   gap: 4rem;
   align-items: center;
 
+  @media (max-width: 1024px) {
+    gap: 3rem;
+  }
+
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     text-align: center;
+    gap: 2rem;
+    padding: 0 1rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0 0.5rem;
+    gap: 1.5rem;
   }
 `;
 
 const DetailsText = styled.div`
+  padding: 0 1rem;
+
+  @media (max-width: 768px) {
+    padding: 0 0.5rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0 0.25rem;
+  }
+
   h2 {
     font-size: 2.5rem;
     font-weight: 700;
     color: #1c203c;
     margin-bottom: 1.5rem;
+
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 1.8rem;
+    }
   }
 
   p {
@@ -36,19 +65,49 @@ const DetailsText = styled.div`
     line-height: 1.8;
     color: #4a5568;
     margin-bottom: 2rem;
+
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 0.95rem;
+    }
   }
 `;
 
 const FeaturesList = styled.ul`
   list-style: none;
   margin-bottom: 2rem;
+  padding: 0 1rem;
+
+  @media (max-width: 768px) {
+    padding: 0 0.5rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0 0.25rem;
+  }
 
   li {
     color: #4a5568;
     margin-bottom: 1rem;
     position: relative;
     padding-left: 2rem;
+    padding-right: 1rem;
     font-size: 1.1rem;
+
+    @media (max-width: 768px) {
+      font-size: 1rem;
+      padding-left: 1.5rem;
+      padding-right: 0.5rem;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 0.95rem;
+      padding-left: 1.2rem;
+      padding-right: 0.25rem;
+    }
 
     &::before {
       content: '✓';
@@ -57,17 +116,29 @@ const FeaturesList = styled.ul`
       color: #667eea;
       font-weight: bold;
       font-size: 1.2rem;
+
+      @media (max-width: 480px) {
+        font-size: 1rem;
+      }
     }
   }
 `;
 
 const ButtonGroup = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   flex-wrap: wrap;
+  margin-top: 1rem;
 
   @media (max-width: 768px) {
     justify-content: center;
+    gap: 1rem;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  @media (max-width: 480px) {
+    gap: 0.8rem;
   }
 `;
 
@@ -81,10 +152,18 @@ const PrimaryButton = styled(Link)`
   font-size: 1.1rem;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  display: inline-block;
+  text-align: center;
+  min-width: 200px;
 
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 300px;
   }
 `;
 
@@ -98,10 +177,19 @@ const SecondaryButton = styled(Link)`
   font-weight: 600;
   font-size: 1.1rem;
   transition: all 0.3s ease;
+  display: inline-block;
+  text-align: center;
+  min-width: 200px;
 
   &:hover {
     background: #1c203c;
     color: white;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 5rem;
   }
 `;
 
@@ -138,6 +226,25 @@ const ImagePlaceholder = styled.div`
   position: relative;
   z-index: 1;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 1024px) {
+    width: 350px;
+    height: 250px;
+    font-size: 3.5rem;
+  }
+
+  @media (max-width: 768px) {
+    width: 300px;
+    height: 200px;
+    font-size: 3rem;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+    max-width: 280px;
+    height: 180px;
+    font-size: 2.5rem;
+  }
 `;
 
 const ToolDetails: React.FC = () => {

@@ -125,7 +125,7 @@ const Footer: React.FC = () => {
       </FooterContent>
 
       <FooterBottom>
-        <p>&copy; 2024 IzataCore. Todos os direitos reservados.</p>
+        <p>&copy; 2025 IzataCore. Todos os direitos reservados.</p>
       </FooterBottom>
     </FooterContainer>
   );

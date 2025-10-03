@@ -193,12 +193,7 @@ const ContactInfo: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <MapContainer>
-            <MapTitle>Nossa Localização</MapTitle>
-            <MapPlaceholder>
-              🗺️ Mapa Interativo
-            </MapPlaceholder>
-          </MapContainer>
+          
         </motion.div>
       </InfoContent>
     </InfoContainer>

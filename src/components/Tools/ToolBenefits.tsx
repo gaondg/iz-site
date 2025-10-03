@@ -35,6 +35,15 @@ const BenefitsGrid = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   margin-bottom: 4rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    gap: 1rem;
+  }
 `;
 
 const BenefitCard = styled(motion.div)`
@@ -48,6 +57,15 @@ const BenefitCard = styled(motion.div)`
     background: white;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     transform: translateY(-5px);
+  }
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+    border-radius: 15px;
   }
 `;
 
@@ -83,18 +101,49 @@ const StatsContainer = styled.div`
   padding: 3rem;
   color: white;
   margin-top: 4rem;
+
+  @media (max-width: 768px) {
+    padding: 2rem;
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1.5rem;
+    margin-top: 2rem;
+    border-radius: 15px;
+  }
 `;
 
 const StatsTitle = styled.h3`
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 2rem;
+
+  @media (max-width: 768px) {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
 `;
 
 const StatsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 2rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 `;
 
 const StatItem = styled.div`
@@ -105,11 +154,27 @@ const StatItem = styled.div`
     font-weight: 700;
     color: #667eea;
     margin-bottom: 0.5rem;
+
+    @media (max-width: 768px) {
+      font-size: 2.5rem;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 2rem;
+    }
   }
 
   p {
     font-size: 1.1rem;
     color: #e2e8f0;
+
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 0.95rem;
+    }
   }
 `;
 

@@ -40,8 +40,16 @@ const HeroTitle = styled.h1`
   -webkit-text-fill-color: transparent;
   background-clip: text;
 
+  @media (max-width: 1024px) {
+    font-size: 3rem;
+  }
+
   @media (max-width: 768px) {
     font-size: 2.5rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 2rem;
   }
 `;
 
@@ -53,6 +61,16 @@ const HeroSubtitle = styled.p`
   margin-left: auto;
   margin-right: auto;
   color: #e2e8f0;
+
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
+    padding: 0 1rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+    padding: 0 0.5rem;
+  }
 `;
 
 const ButtonGroup = styled.div`
@@ -60,6 +78,12 @@ const ButtonGroup = styled.div`
   gap: 1.5rem;
   justify-content: center;
   flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    gap: 1rem;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const PrimaryButton = styled(Link)`
@@ -77,6 +101,18 @@ const PrimaryButton = styled(Link)`
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
   }
+
+  @media (max-width: 768px) {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
 `;
 
 const SecondaryButton = styled(Link)`
@@ -93,6 +129,18 @@ const SecondaryButton = styled(Link)`
   &:hover {
     background: white;
     color: #1c203c;
+  }
+
+  @media (max-width: 768px) {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
   }
 `;
 
