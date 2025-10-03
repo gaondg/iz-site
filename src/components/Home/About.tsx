@@ -153,7 +153,7 @@ const About: React.FC = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <AboutImage>
-            <ImagePlaceholder>💼</ImagePlaceholder>
+            <ImagePlaceholder><img src='/foto2.webp' alt='About Image' /></ImagePlaceholder>
           </AboutImage>
         </motion.div>
       </AboutContent>

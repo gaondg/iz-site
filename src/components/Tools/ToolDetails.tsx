@@ -192,3 +192,4 @@ const ToolDetails: React.FC = () => {
 };
 
 export default ToolDetails;
+

@@ -108,3 +108,4 @@ Para dúvidas ou suporte, entre em contato:
 ## 📄 Licença
 
 Este projeto é propriedade da IzataCore. Todos os direitos reservados.
+

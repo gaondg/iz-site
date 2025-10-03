@@ -59,3 +59,4 @@ export const generateMetaTags = (page: keyof typeof pageSeo) => {
     'twitter:creator': seoConfig.twitter
   };
 };
+

@@ -122,3 +122,4 @@ const CompanyHero: React.FC = () => {
 };
 
 export default CompanyHero;
+

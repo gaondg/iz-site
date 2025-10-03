@@ -223,3 +223,4 @@ export const initializeAccessibilityOptimization = (): void => {
     addHighContrastSupport();
   }
 };
+

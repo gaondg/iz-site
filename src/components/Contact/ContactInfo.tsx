@@ -206,3 +206,4 @@ const ContactInfo: React.FC = () => {
 };
 
 export default ContactInfo;
+

@@ -57,6 +57,7 @@ const VisionCard = styled.div`
     line-height: 1.6;
     font-size: 1.1rem;
   }
+  
 `;
 
 const VisionImage = styled.div`
@@ -79,6 +80,8 @@ const VisionImage = styled.div`
   }
 `;
 
+
+
 const ImagePlaceholder = styled.div`
   width: 400px;
   height: 300px;
@@ -92,6 +95,13 @@ const ImagePlaceholder = styled.div`
   position: relative;
   z-index: 1;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+
+     img {
+    width: 50%;
+    height: 50%;
+    object-fit: cover; /* Garante que a imagem preencha o container sem distorcer, cortando se necessário */
+    border-radius: 20px; /* Opcional: Adicionar borda arredondada na imagem */
+  }
 `;
 
 const CompanyVision: React.FC = () => {
@@ -125,7 +135,7 @@ const CompanyVision: React.FC = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <VisionImage>
-            <ImagePlaceholder>🎯</ImagePlaceholder>
+            <ImagePlaceholder><img src='/visao-da-empresa.webp' alt='Vision Image' /></ImagePlaceholder>
           </VisionImage>
         </motion.div>
       </VisionContent>
@@ -177,3 +187,4 @@ const CompanyVision: React.FC = () => {
 };
 
 export default CompanyVision;
+
