@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
@@ -55,48 +54,7 @@ const HeroSubtitle = styled.p`
   color: #e2e8f0;
 `;
 
-const ButtonGroup = styled.div`
-  display: flex;
-  gap: 1.5rem;
-  justify-content: center;
-  flex-wrap: wrap;
-`;
-
-const PrimaryButton = styled(Link)`
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 1.2rem 2.5rem;
-  border-radius: 50px;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 1.2rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-  }
-`;
-
-const SecondaryButton = styled(Link)`
-  background: transparent;
-  color: white;
-  padding: 1.2rem 2.5rem;
-  border: 2px solid white;
-  border-radius: 50px;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 1.2rem;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: white;
-    color: #1c203c;
-  }
-`;
-
-const CompanyHero: React.FC = () => {
+const SmartAssetHero: React.FC = () => {
   return (
     <HeroContainer>
       <HeroContent>
@@ -105,22 +63,17 @@ const CompanyHero: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <HeroTitle>Sobre a IzataCore</HeroTitle>
+          <HeroTitle>SmartAsset</HeroTitle>
           <HeroSubtitle>
-            Conheça nossa história, visão e equipe de especialistas que trabalham 
-            incansavelmente para transformar a tecnologia em soluções práticas 
-            para o seu negócio.
+            A ferramenta completa para gestão inteligente de ativos que automatiza 
+            processos e otimiza a utilização de recursos da sua empresa.
           </HeroSubtitle>
-          <ButtonGroup>
-            <PrimaryButton to="/contato">Falar Conosco</PrimaryButton>
-            <SecondaryButton to="#visao">Nossa Visão</SecondaryButton>
-          </ButtonGroup>
         </motion.div>
       </HeroContent>
     </HeroContainer>
   );
 };
 
-export default CompanyHero;
+export default SmartAssetHero;
 
 

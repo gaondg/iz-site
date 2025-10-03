@@ -40,7 +40,7 @@ const ServicesGrid = styled.div`
 `;
 
 const ServiceCard = styled(motion.div)`
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(50, 85, 241, 0.1);
   backdrop-filter: blur(10px);
   border-radius: 20px;
   padding: 2rem;
@@ -67,7 +67,7 @@ const ServiceIcon = styled.div`
 `;
 
 const ServiceTitle = styled.h3`
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: white;
   margin-bottom: 1rem;

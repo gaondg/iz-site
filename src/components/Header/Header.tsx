@@ -222,7 +222,7 @@ const Header: React.FC = () => {
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <DropdownItem to="/ferramentas/smartasset">SmartAsset</DropdownItem>
+                  <DropdownItem to="/smartasset">SmartAsset</DropdownItem>
                 </Dropdown>
               )}
             </AnimatePresence>

@@ -186,3 +186,4 @@ const CompanyTeam: React.FC = () => {
 
 export default CompanyTeam;
 
+

@@ -60,3 +60,4 @@ export const generateMetaTags = (page: keyof typeof pageSeo) => {
   };
 };
 
+
