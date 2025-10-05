@@ -1,242 +1,594 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
+"use client"
 
-// --- STYLED COMPONENTS BASE ---
+import type React from "react"
+import { useState } from "react"
+import { Link } from "react-router-dom"
+import styled, { keyframes } from "styled-components"
+import { motion } from "framer-motion"
+
+// --- CORES E CONFIGURAÇÕES ---
+const SMART_COLOR_START = "#00FFFF"
+const SMART_COLOR_END = "#178582"
+const DARK_BG_PRIMARY = "#0A1828"
+const DARK_BG_SECONDARY = "#1c203c"
+const ACCENT_COLOR = "#E67E22"
+const ACCENT_SECONDARY = "#F39C12"
+
+// --- ANIMAÇÕES ---
+const pulseGlow = keyframes`
+  0%, 100% { 
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3),
+                0 0 60px rgba(0, 255, 255, 0.2),
+                inset 0 0 30px rgba(0, 255, 255, 0.1);
+  }
+  50% { 
+    box-shadow: 0 0 50px rgba(0, 255, 255, 0.5),
+                0 0 80px rgba(0, 255, 255, 0.3),
+                inset 0 0 40px rgba(0, 255, 255, 0.15);
+  }
+`
+
+const float = keyframes`
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-20px) rotate(5deg); }
+  66% { transform: translateY(-10px) rotate(-5deg); }
+`
+
+const shimmer = keyframes`
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+`
+
+const rotateGradient = keyframes`
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+`
+
+const fadeInUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`
+
+// --- STYLED COMPONENTS ---
 
 const ServicesContainer = styled.section`
-  padding: 6rem 0;
-  background: linear-gradient(135deg, #0A1828 0%, #178582 50%, #1E3A8A 100%);
+  padding: 8rem 0;
+  background: linear-gradient(180deg, ${DARK_BG_SECONDARY} 0%, ${DARK_BG_PRIMARY} 100%);
   color: white;
-`;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(23, 133, 130, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+`
+
+const FloatingShape = styled(motion.div)<{ $delay: number; $size: number; $left: string; $top: string }>`
+  position: absolute;
+  width: ${(props) => props.$size}px;
+  height: ${(props) => props.$size}px;
+  left: ${(props) => props.$left};
+  top: ${(props) => props.$top};
+  border-radius: 50%;
+  background: linear-gradient(135deg, ${SMART_COLOR_START}20, ${SMART_COLOR_END}20);
+  border: 2px solid ${SMART_COLOR_START}30;
+  animation: ${float} ${(props) => 6 + props.$delay}s ease-in-out infinite;
+  animation-delay: ${(props) => props.$delay}s;
+  pointer-events: none;
+  z-index: 0;
+`
 
 const ServicesContent = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
   text-align: center;
-`;
+  position: relative;
+  z-index: 1;
+`
+
+const BadgeContainer = styled(motion.div)`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, ${SMART_COLOR_START}15, ${SMART_COLOR_END}15);
+  border: 1px solid ${SMART_COLOR_START}40;
+  padding: 0.5rem 1.5rem;
+  border-radius: 50px;
+  margin-bottom: 1.5rem;
+  backdrop-filter: blur(10px);
+`
+
+const BadgeIcon = styled.span`
+  font-size: 1.2rem;
+  animation: ${float} 3s ease-in-out infinite;
+`
+
+const BadgeText = styled.span`
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: linear-gradient(135deg, ${SMART_COLOR_START}, ${SMART_COLOR_END});
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+`
 
 const SectionTitle = styled.h2`
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: white;
+  font-size: 3.5rem;
+  font-weight: 900;
+  text-align: center;
+  background: linear-gradient(135deg, ${SMART_COLOR_START} 0%, ${SMART_COLOR_END} 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-bottom: 1rem;
-`;
+  line-height: 1.2;
+  letter-spacing: -1px;
+
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
+  }
+`
 
 const SectionSubtitle = styled.p`
-  font-size: 1.2rem;
-  color: #e2e8f0;
-  margin-bottom: 4rem;
-  max-width: 600px;
+  font-size: 1.3rem;
+  font-weight: 300;
+  color: #cbd5e0;
+  margin-bottom: 5rem;
+  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
-`;
-
-const ServicesGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
-  margin-bottom: 4rem;
-`;
-
-// Card Base (sutil e transparente)
-const ServiceCard = styled(motion.div)`
-  background: rgba(50, 85, 241, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-5px);
-  }
-`;
-
-// Elementos internos (usados para aninhamento)
-const ServiceIcon = styled.div`
-  width: 80px;
-  height: 80px;
-  background: linear-gradient(135deg, #1c203c 0%, #3B407A 100%); /* Base icon color (dark) */
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.5rem;
-  color: white;
-  margin: 0 auto 1.5rem;
-`;
-
-const ServiceTitle = styled.h3`
-  font-size: 2rem;
-  font-weight: 700;
-  color: white;
-  margin-bottom: 1rem;
-`;
-
-const ServiceDescription = styled.p`
-  color: #e2e8f0;
   line-height: 1.6;
-  margin-bottom: 1.5rem;
-`;
+`
 
-const ServiceFeatures = styled.ul`
-  list-style: none;
-  margin-bottom: 2rem;
-  text-align: left;
+const FeaturedWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
+`
 
-  li {
-    color: #e2e8f0;
-    margin-bottom: 0.5rem;
-    position: relative;
-    padding-left: 1.5rem;
+const FeaturedServiceCard = styled(motion.div)`
+  max-width: 1100px;
+  width: 100%;
+  border-radius: 30px;
+  background: linear-gradient(145deg, ${DARK_BG_PRIMARY}, #0d1f2d);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  position: relative;
+  animation: ${pulseGlow} 4s infinite alternate;
+  overflow: hidden;
+  transform-style: preserve-3d;
 
-    &::before {
-      content: '✓';
-      position: absolute;
-      left: 0;
-      color: #00FFFF;
-      font-weight: bold;
-    }
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 30px;
+    padding: 2px;
+    background: linear-gradient(135deg, ${SMART_COLOR_START}, ${SMART_COLOR_END}, ${SMART_COLOR_START});
+    background-size: 200% 200%;
+    animation: ${rotateGradient} 3s ease infinite;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
   }
-`;
+`
 
-const ServiceButton = styled(Link)`
-  background: #E67E22; /* Cor de contraste (Laranja) */
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 25px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: all 0.3s ease;
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 4rem 4rem 4rem 4rem;
+  position: relative;
+  z-index: 2;
+
+  @media (max-width: 1024px) {
+    padding: 3rem 2rem;
+  }
+`
+
+const ProductTitle = styled.h3`
+  font-size: 3.5rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, ${SMART_COLOR_START} 0%, ${SMART_COLOR_END} 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.8rem;
+  line-height: 1;
+  letter-spacing: -2px;
+  position: relative;
   display: inline-block;
 
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, ${ACCENT_COLOR}, ${ACCENT_SECONDARY});
+    border-radius: 2px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
+  }
+`
+
+const ProductTagline = styled.p`
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+  line-height: 1.4;
+  max-width: 800px;
+`
+
+const ProductDescription = styled.p`
+  color: #cbd5e0;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  font-size: 1.05rem;
+  max-width: 850px;
+`
+
+const FeatureGrid = styled.ul`
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+  margin: 2rem 0 2.5rem;
+  padding: 0;
+  max-width: 900px;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+`
+
+const FeatureItem = styled(motion.li)<{ $isHovered: boolean }>`
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: ${(props) => (props.$isHovered ? "#ffffff" : "#a0aec0")};
+  position: relative;
+  padding: 1rem 1.5rem 1rem 3.5rem;
+  background: ${(props) =>
+    props.$isHovered ? `linear-gradient(90deg, ${SMART_COLOR_START}15, transparent)` : "transparent"};
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border-left: 3px solid ${(props) => (props.$isHovered ? ACCENT_COLOR : "transparent")};
+  text-align: left;
+
+  &::before {
+    content: '⚡';
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%) ${(props) => (props.$isHovered ? "scale(1.2)" : "scale(1)")};
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    filter: ${(props) => (props.$isHovered ? `drop-shadow(0 0 8px ${ACCENT_COLOR})` : "none")};
+  }
+
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(230, 126, 34, 0.4);
+    transform: translateX(8px);
   }
-`;
+`
 
-// --- NOVO: ESTILOS DE DESTAQUE PARA O SMARTASSET ---
+const CTAButtonWrapper = styled.div`
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 
-const FeaturedServiceCard = styled(ServiceCard)`
-  /* 1. FUNDO VIBRANTE E SÓLIDO */
-  background: linear-gradient(160deg, #178582 0%, #00FFFF 100%);
-  color: #0A1828;
-  
-  /* 2. BORDA E SOMBRA DE DESTAQUE */
-  border: 1px solid white; 
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 
-              0 0 40px rgba(0, 255, 255, 0.4); 
-  
-  /* 3. EFEITO HOVER MAIS INTENSO */
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`
+
+const CTAButton = styled(Link)<{ $variant?: "primary" | "secondary" }>`
+  background: ${(props) =>
+    props.$variant === "secondary" ? "transparent" : `linear-gradient(135deg, ${ACCENT_COLOR}, ${ACCENT_SECONDARY})`};
+  color: white;
+  padding: 1.3rem 3rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.2rem;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  position: relative;
+  overflow: hidden;
+  border: ${(props) => (props.$variant === "secondary" ? `2px solid ${SMART_COLOR_START}` : "none")};
+  box-shadow: ${(props) => (props.$variant === "secondary" ? "none" : `0 10px 30px ${ACCENT_COLOR}60`)};
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+  }
+
   &:hover {
-    background: linear-gradient(160deg, #178582 0%, #00FFFF 100%);
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 
-                0 0 60px rgba(0, 255, 255, 0.6); 
-  }
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: ${(props) =>
+      props.$variant === "secondary" ? `0 10px 30px ${SMART_COLOR_START}40` : `0 15px 40px ${ACCENT_COLOR}80`};
 
-  /* AJUSTE CORES INTERNAS DO CARD DE DESTAQUE (SINTAXE CORRIGIDA) */
-  ${ServiceIcon} {
-      /* Ícone fica escuro para contraste no fundo claro */
-      background: linear-gradient(135deg, #1c203c 0%, #3B407A 100%);
-  }
-  
-  ${ServiceTitle} {
-    color:rgb(22, 40, 61); /* Título escuro */
-  }
-
-  ${ServiceDescription} {
-    color: #0A1828; /* Descrição escura */
-  }
-
-  ${ServiceFeatures} li {
-    color: #0A1828; /* Cor do texto da lista */
-  }
-  
-  ${ServiceFeatures} li::before {
-    color: #E67E22; /* Cor de check-mark de destaque (Laranja) */
-  }
-  
-  ${ServiceButton} {
-    /* Botão de cor de fundo inversa (Laranja) */
-    background: #E67E22;
-    color: white;
-  }
-`;
-
-// --- COMPONENTE REACT PRINCIPAL ---
-
-const Services: React.FC = () => {
-  const services = [
-    {
-      icon: '⚡',
-      title: 'SmartAsset',
-      isFeatured: true, // Adiciona o flag de destaque
-      description: 'Plataforma completa de gestão de ativos que automatiza processos e otimiza a utilização de recursos da sua empresa.',
-      features: [
-        'Gestão centralizada de ativos',
-        'Automação de processos',
-        'Relatórios em tempo real',
-        'Integração com sistemas existentes'
-      ]
+    &::before {
+      left: 100%;
     }
-  ];
+  }
+
+  &:active {
+    transform: translateY(-1px) scale(0.98);
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: center;
+  }
+`
+
+const ButtonIcon = styled.span`
+  font-size: 1.3rem;
+  transition: transform 0.3s ease;
+
+  ${CTAButton}:hover & {
+    transform: translateX(5px);
+  }
+`
+
+const FloatingImageContainer = styled(motion.div)`
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  height: 350px;
+  margin: 0 auto 3rem;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 
+    0 20px 60px rgba(0, 255, 255, 0.2),
+    0 0 0 1px rgba(0, 255, 255, 0.3);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(255, 255, 255, 0.03) 10px,
+      rgba(255, 255, 255, 0.03) 20px
+    );
+    animation: ${shimmer} 20s linear infinite;
+    z-index: 1;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    position: relative;
+    z-index: 2;
+    filter: brightness(1.1) contrast(1.1);
+    transition: transform 0.5s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.05);
+  }
+
+  @media (max-width: 768px) {
+    height: 250px;
+    margin-bottom: 2rem;
+  }
+`
+
+const StatsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(0, 255, 255, 0.2);
+  max-width: 800px;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+`
+
+const StatItem = styled(motion.div)`
+  text-align: center;
+  padding: 1rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, ${SMART_COLOR_START}08, ${SMART_COLOR_END}08);
+  border: 1px solid ${SMART_COLOR_START}20;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: linear-gradient(135deg, ${SMART_COLOR_START}15, ${SMART_COLOR_END}15);
+    border-color: ${SMART_COLOR_START}40;
+    transform: translateY(-5px);
+  }
+`
+
+const StatValue = styled.div`
+  font-size: 2rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, ${SMART_COLOR_START}, ${SMART_COLOR_END});
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.3rem;
+`
+
+const StatLabel = styled.div`
+  font-size: 0.85rem;
+  color: #a0aec0;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+`
+
+// --- COMPONENTE PRINCIPAL ---
+
+const FeaturedSmartAsset: React.FC = () => {
+  const [hoveredFeature, setHoveredFeature] = useState<number | null>(null)
+
+  const smartAsset = {
+    title: "SmartAsset",
+    tagline: "Otimize seus Ativos, Automatize seus Processos, Maximize seus Resultados.",
+    description:
+      "SmartAsset é a plataforma de gestão inteligente que usa o poder da Automação e Inteligência Artificial para otimizar o ciclo de vida dos seus ativos. Tenha controle total, reduza custos operacionais e garanta a longevidade dos seus equipamentos.",
+    features: [
+      "Controle 360º de Ativos: Gerencie localização, inventário e ciclo de vida",
+      "Automação Inteligente de Workflow: Elimine tarefas manuais e erros",
+      "Business Intelligence (BI): Relatórios em tempo real para decisões estratégicas",
+      "Manutenção Preditiva: Preveja falhas e reduza o tempo de inatividade",
+    ],
+    stats: [
+      { value: "95%", label: "Redução de Erros" },
+      { value: "60%", label: "Economia de Tempo" },
+      { value: "24/7", label: "Monitoramento" },
+    ],
+    imageSrc: "/login-smart.webp",
+  }
 
   return (
     <ServicesContainer>
+      {/* Formas flutuantes decorativas */}
+      <FloatingShape $delay={0} $size={100} $left="10%" $top="15%" />
+      <FloatingShape $delay={1} $size={150} $left="85%" $top="25%" />
+      <FloatingShape $delay={2} $size={80} $left="15%" $top="75%" />
+      <FloatingShape $delay={1.5} $size={120} $left="90%" $top="80%" />
+
       <ServicesContent>
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <SectionTitle>Nossos Serviços</SectionTitle>
+        <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+          <BadgeContainer
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <BadgeIcon>🚀</BadgeIcon>
+            <BadgeText>Solução Principal</BadgeText>
+          </BadgeContainer>
+
+          <SectionTitle>Conheça o SmartAsset</SectionTitle>
           <SectionSubtitle>
-            Soluções especializadas em automação e tecnologia para impulsionar 
-            a eficiência e o crescimento do seu negócio.
+            A plataforma completa que integra gestão de ativos e automação inteligente para transformar a eficiência
+            operacional do seu negócio.
           </SectionSubtitle>
         </motion.div>
 
-        <ServicesGrid>
-          {services.map((service, index) => {
-            // Lógica para renderizar o Card em destaque
-            const CardComponent = service.isFeatured ? FeaturedServiceCard : ServiceCard;
-
-            return (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
+        <FeaturedWrapper>
+          <FeaturedServiceCard
+            initial={{ opacity: 0, scale: 0.95, rotateX: 10 }}
+            animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+            transition={{ duration: 0.8, delay: 0.4, type: "spring", stiffness: 80 }}
+            whileHover={{ scale: 1.01, transition: { duration: 0.3 } }}
+          >
+            <ContentWrapper>
+              <FloatingImageContainer
+                initial={{ opacity: 0, y: -30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                whileHover={{ y: -10, transition: { duration: 0.3 } }}
               >
-                <CardComponent
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {/* <ServiceIcon>{service.icon}</ServiceIcon> */}
-                  <ServiceTitle>{service.title}</ServiceTitle>
-                  <ServiceDescription>{service.description}</ServiceDescription>
-                  <ServiceFeatures>
-                    {service.features.map((feature, featureIndex) => (
-                      <li key={featureIndex}>{feature}</li>
-                    ))}
-                  </ServiceFeatures>
-                  <ServiceButton to={`/${service.title.toLowerCase()}`}>
-                    Saiba Mais
-                  </ServiceButton>
-                </CardComponent>
-              </motion.div>
-            );
-          })}
-        </ServicesGrid>
+                <img
+                  src={smartAsset.imageSrc || "/placeholder.svg"}
+                  alt="Interface da plataforma SmartAsset com dashboard e análises em tempo real"
+                />
+              </FloatingImageContainer>
+
+              <ProductTitle>{smartAsset.title}</ProductTitle>
+              <ProductTagline>{smartAsset.tagline}</ProductTagline>
+              <ProductDescription>{smartAsset.description}</ProductDescription>
+
+              <FeatureGrid>
+                {smartAsset.features.map((feature, index) => (
+                  <FeatureItem
+                    key={index}
+                    $isHovered={hoveredFeature === index}
+                    onMouseEnter={() => setHoveredFeature(index)}
+                    onMouseLeave={() => setHoveredFeature(null)}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
+                  >
+                    {feature}
+                  </FeatureItem>
+                ))}
+              </FeatureGrid>
+
+              <CTAButtonWrapper>
+                <CTAButton to="/contato" $variant="primary">
+                  Solicitar Demonstração
+                  <ButtonIcon>→</ButtonIcon>
+                </CTAButton>
+              </CTAButtonWrapper>
+
+              <StatsGrid>
+                {smartAsset.stats.map((stat, index) => (
+                  <StatItem
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 1 + index * 0.1 }}
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <StatValue>{stat.value}</StatValue>
+                    <StatLabel>{stat.label}</StatLabel>
+                  </StatItem>
+                ))}
+              </StatsGrid>
+            </ContentWrapper>
+          </FeaturedServiceCard>
+        </FeaturedWrapper>
       </ServicesContent>
     </ServicesContainer>
-  );
-};
+  )
+}
 
-export default Services;
+export default FeaturedSmartAsset

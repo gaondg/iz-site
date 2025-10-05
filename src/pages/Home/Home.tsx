@@ -21,8 +21,8 @@ const Home: React.FC = () => {
       <Hero />
       <Suspense fallback={<div style={{padding: '2rem', textAlign: 'center'}}>Carregando...</div>}>
         <About />
-        <Products />
         <Services />
+        <Products />
         <Testimonials />
         <CTA />
       </Suspense>
