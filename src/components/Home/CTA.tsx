@@ -140,7 +140,7 @@ const CTA: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
-          <FeaturesList>
+          {/* <FeaturesList>
             <FeatureItem>
               <span>🚀</span>
               <p>Implementação Rápida</p>
@@ -157,7 +157,7 @@ const CTA: React.FC = () => {
               <span>💰</span>
               <p>ROI Comprovado</p>
             </FeatureItem>
-          </FeaturesList>
+          </FeaturesList> */}
         </motion.div>
       </CTAContent>
     </CTAContainer>

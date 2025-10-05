@@ -11,6 +11,7 @@ import Contact from './pages/Contact/Contact';
 import ScrollToTop from './components/ScrollToTop';
 import SmartAsset from './pages/Tools/SmartAsset';
 import CurriculoAI from './pages/Products/CurriculoAI';
+import Ebook from './pages/Products/Ebook';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/produtos" element={<Products />} />
           <Route path="/produtos/curriculo-ai" element={<CurriculoAI />} />
+          <Route path="/produtos/ebook" element={<Ebook />} />
           <Route path="/ferramentas" element={<Tools />} />
           <Route path="/smartasset" element={<SmartAsset />} />
           <Route path="/empresa" element={<Company />} />

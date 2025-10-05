@@ -141,7 +141,8 @@ const CTAButton = styled(motion.button)`
 
 // --- COMPONENTE REACT PRINCIPAL ---
 
-const CurriculoAIHero: React.FC = () => {
+const EbookHero: React.FC = () => {
+
   return (
     <HeroContainer>
       {/* 1. IMAGEM NA ESQUERDA (50vw) */}
@@ -152,8 +153,8 @@ const CurriculoAIHero: React.FC = () => {
       >
         {/* A imagem deve ser acessível na raiz, ex: /banner-curriculo.webp na pasta public */}
         <img 
-          src='/banner-curriculo.webp'
-          alt="Painel de currículo e gráficos de IA" 
+          src='/banner-ebook.webp'
+          alt="Tela de notebook com livros"
         />
       </ImageWrapper>
 
@@ -165,9 +166,9 @@ const CurriculoAIHero: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <HeroTitle>Curriculo AI</HeroTitle>
+            <HeroTitle>Ebook Creator AI</HeroTitle>
             <HeroSubtitle>
-              A plataforma inteligente que cria currículos otimizados usando **inteligência artificial** para destacar suas habilidades e experiência no mercado de trabalho.
+            Transforme suas ideias em um Ebook completo em minutos. Nossa plataforma usa Inteligência Artificial para gerar o conteúdo, a estrutura e o design do seu livro.
             </HeroSubtitle>
             
             <CTAButton
@@ -184,4 +185,4 @@ const CurriculoAIHero: React.FC = () => {
   );
 };
 
-export default CurriculoAIHero;
+export default EbookHero

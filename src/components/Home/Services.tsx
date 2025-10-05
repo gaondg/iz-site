@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
+// --- STYLED COMPONENTS BASE ---
+
 const ServicesContainer = styled.section`
   padding: 6rem 0;
   background: linear-gradient(135deg, #0A1828 0%, #178582 50%, #1E3A8A 100%);
@@ -39,6 +41,7 @@ const ServicesGrid = styled.div`
   margin-bottom: 4rem;
 `;
 
+// Card Base (sutil e transparente)
 const ServiceCard = styled(motion.div)`
   background: rgba(50, 85, 241, 0.1);
   backdrop-filter: blur(10px);
@@ -53,10 +56,11 @@ const ServiceCard = styled(motion.div)`
   }
 `;
 
+// Elementos internos (usados para aninhamento)
 const ServiceIcon = styled.div`
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #178582 0%, #00FFFF 100%);
+  background: linear-gradient(135deg, #1c203c 0%, #3B407A 100%); /* Base icon color (dark) */
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -67,7 +71,7 @@ const ServiceIcon = styled.div`
 `;
 
 const ServiceTitle = styled.h3`
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 700;
   color: white;
   margin-bottom: 1rem;
@@ -82,6 +86,7 @@ const ServiceDescription = styled.p`
 const ServiceFeatures = styled.ul`
   list-style: none;
   margin-bottom: 2rem;
+  text-align: left;
 
   li {
     color: #e2e8f0;
@@ -93,15 +98,15 @@ const ServiceFeatures = styled.ul`
       content: '✓';
       position: absolute;
       left: 0;
-      color: #178582;
+      color: #00FFFF;
       font-weight: bold;
     }
   }
 `;
 
 const ServiceButton = styled(Link)`
-  background: linear-gradient(135deg, #178582 0%, #00FFFF 100%);
-  color: #0A1828;
+  background: #E67E22; /* Cor de contraste (Laranja) */
+  color: white;
   padding: 0.75rem 1.5rem;
   border-radius: 25px;
   text-decoration: none;
@@ -111,15 +116,67 @@ const ServiceButton = styled(Link)`
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(23, 133, 130, 0.3);
+    box-shadow: 0 4px 15px rgba(230, 126, 34, 0.4);
   }
 `;
+
+// --- NOVO: ESTILOS DE DESTAQUE PARA O SMARTASSET ---
+
+const FeaturedServiceCard = styled(ServiceCard)`
+  /* 1. FUNDO VIBRANTE E SÓLIDO */
+  background: linear-gradient(160deg, #178582 0%, #00FFFF 100%);
+  color: #0A1828;
+  
+  /* 2. BORDA E SOMBRA DE DESTAQUE */
+  border: 1px solid white; 
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 
+              0 0 40px rgba(0, 255, 255, 0.4); 
+  
+  /* 3. EFEITO HOVER MAIS INTENSO */
+  &:hover {
+    background: linear-gradient(160deg, #178582 0%, #00FFFF 100%);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 
+                0 0 60px rgba(0, 255, 255, 0.6); 
+  }
+
+  /* AJUSTE CORES INTERNAS DO CARD DE DESTAQUE (SINTAXE CORRIGIDA) */
+  ${ServiceIcon} {
+      /* Ícone fica escuro para contraste no fundo claro */
+      background: linear-gradient(135deg, #1c203c 0%, #3B407A 100%);
+  }
+  
+  ${ServiceTitle} {
+    color:rgb(22, 40, 61); /* Título escuro */
+  }
+
+  ${ServiceDescription} {
+    color: #0A1828; /* Descrição escura */
+  }
+
+  ${ServiceFeatures} li {
+    color: #0A1828; /* Cor do texto da lista */
+  }
+  
+  ${ServiceFeatures} li::before {
+    color: #E67E22; /* Cor de check-mark de destaque (Laranja) */
+  }
+  
+  ${ServiceButton} {
+    /* Botão de cor de fundo inversa (Laranja) */
+    background: #E67E22;
+    color: white;
+  }
+`;
+
+// --- COMPONENTE REACT PRINCIPAL ---
 
 const Services: React.FC = () => {
   const services = [
     {
       icon: '⚡',
       title: 'SmartAsset',
+      isFeatured: true, // Adiciona o flag de destaque
       description: 'Plataforma completa de gestão de ativos que automatiza processos e otimiza a utilização de recursos da sua empresa.',
       features: [
         'Gestão centralizada de ativos',
@@ -146,31 +203,36 @@ const Services: React.FC = () => {
         </motion.div>
 
         <ServicesGrid>
-          {services.map((service, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
-            >
-              <ServiceCard
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
+          {services.map((service, index) => {
+            // Lógica para renderizar o Card em destaque
+            const CardComponent = service.isFeatured ? FeaturedServiceCard : ServiceCard;
+
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.2 }}
               >
-                <ServiceIcon>{service.icon}</ServiceIcon>
-                <ServiceTitle>{service.title}</ServiceTitle>
-                <ServiceDescription>{service.description}</ServiceDescription>
-                <ServiceFeatures>
-                  {service.features.map((feature, featureIndex) => (
-                    <li key={featureIndex}>{feature}</li>
-                  ))}
-                </ServiceFeatures>
-                <ServiceButton to={`/ferramentas/${service.title.toLowerCase()}`}>
-                  Saiba Mais
-                </ServiceButton>
-              </ServiceCard>
-            </motion.div>
-          ))}
+                <CardComponent
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {/* <ServiceIcon>{service.icon}</ServiceIcon> */}
+                  <ServiceTitle>{service.title}</ServiceTitle>
+                  <ServiceDescription>{service.description}</ServiceDescription>
+                  <ServiceFeatures>
+                    {service.features.map((feature, featureIndex) => (
+                      <li key={featureIndex}>{feature}</li>
+                    ))}
+                  </ServiceFeatures>
+                  <ServiceButton to={`/${service.title.toLowerCase()}`}>
+                    Saiba Mais
+                  </ServiceButton>
+                </CardComponent>
+              </motion.div>
+            );
+          })}
         </ServicesGrid>
       </ServicesContent>
     </ServicesContainer>
