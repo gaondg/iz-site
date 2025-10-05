@@ -279,7 +279,6 @@ const ToolDetails: React.FC = () => {
             </FeaturesList>
             <ButtonGroup>
               <PrimaryButton to="/contato">Solicitar Demonstração</PrimaryButton>
-              <SecondaryButton to="#recursos">Ver Recursos</SecondaryButton>
             </ButtonGroup>
           </DetailsText>
         </motion.div>
