@@ -41,32 +41,50 @@ const AboutText = styled.div`
 const StatsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-  margin-top: 2rem;
+  gap: 1.5rem; /* Espaçamento ligeiramente menor */
+  margin-top: 2.5rem; /* Margem superior um pouco maior */
 `;
 
 const StatItem = styled.div`
-  text-align: center;
+  text-align: left; /* Alinhamento à esquerda para um visual mais profissional */
   padding: 1.5rem;
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-
+  border-radius: 8px; /* Cantos levemente menos arredondados */
+  
+  /* ALTERAÇÃO CHAVE: Remove a sombra tradicional e adiciona uma borda sutil */
+  border: 1px solid #e0e0e0; 
+  box-shadow: none; 
+  
+  transition: all 0.3s ease;
+  
+  /* Borda esquerda de destaque (pode ser um gradiente sutil) */
+  border-left: 5px solid #178582; 
+  
   &:hover {
-    transform: translateY(-5px);
+    transform: translateY(-3px); /* Movimento de hover mais suave */
+    border-color: #178582; /* Borda fica mais evidente no hover */
+    box-shadow: 0 6px 15px rgba(23, 133, 130, 0.1); /* Sombra sutil, baseada na cor de destaque */
   }
 
   h3 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #178582;
-    margin-bottom: 0.5rem;
+    font-size: 2.8rem; /* NÚMERO MAIOR para dar mais impacto */
+    font-weight: 800; /* Mais negrito */
+    color: #1c203c; /* Cor do texto principal (mais escuro) */
+    margin-bottom: 0.3rem;
+    
+    /* GRADIENTE NO NÚMERO para um toque moderno */
+    background: linear-gradient(45deg, #178582, #00C6C2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   p {
     color: #4a5568;
     font-weight: 500;
+    font-size: 0.95rem; /* Texto descritivo ligeiramente menor */
+    line-height: 1.2;
+    margin: 0;
   }
 `;
 
