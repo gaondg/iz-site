@@ -14,7 +14,7 @@ const DARK_BG_SECONDARY = "#1c203c"
 const ACCENT_COLOR = "#E67E22"
 const ACCENT_SECONDARY = "#F39C12"
 
-// --- ANIMAÇÕES ---
+// --- ANIMAÇÕES (Mantidas) ---
 const pulseGlow = keyframes`
   0%, 100% { 
     box-shadow: 0 0 30px rgba(0, 255, 255, 0.3),
@@ -45,21 +45,15 @@ const rotateGradient = keyframes`
   100% { background-position: 0% 50%; }
 `
 
-const fadeInUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`
-
 // --- STYLED COMPONENTS ---
 
 const ServicesContainer = styled.section`
   padding: 8rem 0;
+
+  @media (max-width: 768px) {
+    padding: 4rem 0; /* Reduz padding no mobile */
+  }
+
   background: linear-gradient(180deg, ${DARK_BG_SECONDARY} 0%, ${DARK_BG_PRIMARY} 100%);
   color: white;
   position: relative;
@@ -92,6 +86,13 @@ const FloatingShape = styled(motion.div)<{ $delay: number; $size: number; $left:
   animation-delay: ${(props) => props.$delay}s;
   pointer-events: none;
   z-index: 0;
+
+  @media (max-width: 768px) {
+    /* Esconde ou reduz significativamente as formas flutuantes no mobile para performance */
+    display: none; 
+    width: ${(props) => props.$size * 0.5}px;
+    height: ${(props) => props.$size * 0.5}px;
+  }
 `
 
 const ServicesContent = styled.div`
@@ -101,6 +102,10 @@ const ServicesContent = styled.div`
   text-align: center;
   position: relative;
   z-index: 1;
+
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+  }
 `
 
 const BadgeContainer = styled(motion.div)`
@@ -144,7 +149,7 @@ const SectionTitle = styled.h2`
   letter-spacing: -1px;
 
   @media (max-width: 768px) {
-    font-size: 2.5rem;
+    font-size: 2.5rem; /* OTIMIZAÇÃO: Reduz tamanho no mobile */
   }
 `
 
@@ -157,6 +162,11 @@ const SectionSubtitle = styled.p`
   margin-left: auto;
   margin-right: auto;
   line-height: 1.6;
+
+  @media (max-width: 768px) {
+    font-size: 1.1rem; /* OTIMIZAÇÃO: Reduz tamanho no mobile */
+    margin-bottom: 3rem;
+  }
 `
 
 const FeaturedWrapper = styled.div`
@@ -195,6 +205,11 @@ const FeaturedServiceCard = styled(motion.div)`
     mask-composite: exclude;
     pointer-events: none;
   }
+
+  @media (max-width: 768px) {
+    /* Remove a animação de glow no mobile para melhorar a performance */
+    animation: none; 
+  }
 `
 
 const ContentWrapper = styled.div`
@@ -208,6 +223,10 @@ const ContentWrapper = styled.div`
 
   @media (max-width: 1024px) {
     padding: 3rem 2rem;
+  }
+
+  @media (max-width: 768px) {
+    padding: 2rem 1.5rem; /* OTIMIZAÇÃO: Reduz padding no mobile */
   }
 `
 
@@ -230,14 +249,15 @@ const ProductTitle = styled.h3`
     bottom: -10px;
     left: 50%;
     transform: translateX(-50%);
-    width: 80px;
-    height: 4px;
+    width: 60px; /* OTIMIZAÇÃO: Reduz a largura da barra no mobile */
+    height: 3px;
     background: linear-gradient(90deg, ${ACCENT_COLOR}, ${ACCENT_SECONDARY});
     border-radius: 2px;
   }
 
   @media (max-width: 768px) {
-    font-size: 2.5rem;
+    font-size: 2.2rem; /* OTIMIZAÇÃO: Reduz tamanho no mobile */
+    letter-spacing: -1px;
   }
 `
 
@@ -249,6 +269,10 @@ const ProductTagline = styled.p`
   margin-top: 1rem;
   line-height: 1.4;
   max-width: 800px;
+
+  @media (max-width: 768px) {
+    font-size: 1.1rem; /* OTIMIZAÇÃO: Reduz tamanho no mobile */
+  }
 `
 
 const ProductDescription = styled.p`
@@ -257,6 +281,10 @@ const ProductDescription = styled.p`
   margin-bottom: 2rem;
   font-size: 1.05rem;
   max-width: 850px;
+
+  @media (max-width: 768px) {
+    font-size: 1rem; /* OTIMIZAÇÃO: Reduz tamanho no mobile */
+  }
 `
 
 const FeatureGrid = styled.ul`
@@ -270,7 +298,9 @@ const FeatureGrid = styled.ul`
   width: 100%;
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* OTIMIZAÇÃO: Uma única coluna no mobile */
+    gap: 1rem;
+    margin: 1.5rem 0 2rem;
   }
 `
 
@@ -300,7 +330,15 @@ const FeatureItem = styled(motion.li)<{ $isHovered: boolean }>`
   }
 
   &:hover {
-    transform: translateX(8px);
+    transform: translateX(5px); /* Reduz o deslocamento no hover */
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    padding: 0.8rem 1rem 0.8rem 3rem; /* Ajusta padding no mobile */
+    &:hover {
+      transform: none; /* Desativa a transformação no hover do mobile */
+    }
   }
 `
 
@@ -310,7 +348,9 @@ const CTAButtonWrapper = styled.div`
   align-items: center;
 
   @media (max-width: 768px) {
-    flex-direction: column;
+    flex-direction: column; /* OTIMIZAÇÃO: Botões empilhados no mobile */
+    gap: 0.8rem;
+    width: 100%;
   }
 `
 
@@ -358,8 +398,12 @@ const CTAButton = styled(Link)<{ $variant?: "primary" | "secondary" }>`
   }
 
   @media (max-width: 768px) {
-    width: 100%;
+    width: 100%; /* OTIMIZAÇÃO: Ocupa a largura total */
     justify-content: center;
+    font-size: 1.1rem;
+    padding: 1rem 2rem;
+    transform: none !important; /* Remove transformações complexas no mobile */
+    box-shadow: none !important;
   }
 `
 
@@ -414,12 +458,19 @@ const FloatingImageContainer = styled(motion.div)`
   }
 
   &:hover img {
-    transform: scale(1.05);
+    transform: scale(1.03); /* Reduz o zoom no hover */
   }
 
   @media (max-width: 768px) {
-    height: 250px;
+    height: 200px; /* OTIMIZAÇÃO: Reduz a altura da imagem no mobile */
     margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 255, 255, 0.1);
+    &::before {
+      animation: none; /* Desativa o shimmer no mobile para performance */
+    }
+    &:hover img {
+      transform: scale(1); /* Remove o zoom no hover do mobile */
+    }
   }
 `
 
@@ -434,8 +485,10 @@ const StatsGrid = styled.div`
   width: 100%;
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* OTIMIZAÇÃO: Uma única coluna no mobile */
     gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
   }
 `
 
@@ -452,6 +505,13 @@ const StatItem = styled(motion.div)`
     border-color: ${SMART_COLOR_START}40;
     transform: translateY(-5px);
   }
+
+  @media (max-width: 768px) {
+    padding: 0.8rem;
+    &:hover {
+      transform: none;
+    }
+  }
 `
 
 const StatValue = styled.div`
@@ -462,6 +522,10 @@ const StatValue = styled.div`
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-bottom: 0.3rem;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
 `
 
 const StatLabel = styled.div`
@@ -470,6 +534,10 @@ const StatLabel = styled.div`
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+
+  @media (max-width: 768px) {
+    font-size: 0.75rem;
+  }
 `
 
 // --- COMPONENTE PRINCIPAL ---
@@ -497,18 +565,19 @@ const FeaturedSmartAsset: React.FC = () => {
   }
 
   return (
-    <ServicesContainer>
-      {/* Formas flutuantes decorativas */}
+    <ServicesContainer id="smartasset">
+      {/* Formas flutuantes decorativas (Escondidas no mobile via CSS) */}
       <FloatingShape $delay={0} $size={100} $left="10%" $top="15%" />
       <FloatingShape $delay={1} $size={150} $left="85%" $top="25%" />
       <FloatingShape $delay={2} $size={80} $left="15%" $top="75%" />
       <FloatingShape $delay={1.5} $size={120} $left="90%" $top="80%" />
 
       <ServicesContent>
-        <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+        <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.1 }} transition={{ duration: 0.8 }}>
           <BadgeContainer
             initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <BadgeIcon>🚀</BadgeIcon>
@@ -525,14 +594,16 @@ const FeaturedSmartAsset: React.FC = () => {
         <FeaturedWrapper>
           <FeaturedServiceCard
             initial={{ opacity: 0, scale: 0.95, rotateX: 10 }}
-            animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+            whileInView={{ opacity: 1, scale: 1, rotateX: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.8, delay: 0.4, type: "spring", stiffness: 80 }}
             whileHover={{ scale: 1.01, transition: { duration: 0.3 } }}
           >
             <ContentWrapper>
               <FloatingImageContainer
                 initial={{ opacity: 0, y: -30 }}
-                animate={{ opacity: 1, y: 0 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
                 whileHover={{ y: -10, transition: { duration: 0.3 } }}
               >
@@ -554,7 +625,8 @@ const FeaturedSmartAsset: React.FC = () => {
                     onMouseEnter={() => setHoveredFeature(index)}
                     onMouseLeave={() => setHoveredFeature(null)}
                     initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, amount: 0.1 }}
                     transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
                   >
                     {feature}
@@ -574,7 +646,8 @@ const FeaturedSmartAsset: React.FC = () => {
                   <StatItem
                     key={index}
                     initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.1 }}
                     transition={{ duration: 0.5, delay: 1 + index * 0.1 }}
                     whileHover={{ scale: 1.05 }}
                   >
