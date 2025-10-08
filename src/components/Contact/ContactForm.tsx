@@ -147,6 +147,10 @@ const SubmitButton = styled.button`
   }
 `;
 
+const validateEmail = (email: string) => {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+
 const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -158,6 +162,17 @@ const ContactForm: React.FC = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  const validate = () => {
+    const newErrors: { [key: string]: string } = {};
+    if (!formData.name.trim()) newErrors.name = 'Nome é obrigatório';
+    if (!formData.email.trim()) newErrors.email = 'E-mail é obrigatório';
+    else if (!validateEmail(formData.email)) newErrors.email = 'E-mail inválido';
+    if (!formData.subject.trim()) newErrors.subject = 'Assunto é obrigatório';
+    if (!formData.message.trim()) newErrors.message = 'Mensagem é obrigatória';
+    return newErrors;
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -165,27 +180,37 @@ const ContactForm: React.FC = () => {
       ...prev,
       [name]: value
     }));
+    setErrors(prev => ({ ...prev, [name]: '' }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
     setIsSubmitting(true);
-    
-    // Simular envio do formulário
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
+    try {
+      await fetch('http://localhost:5000/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        company: '',
+        subject: '',
+        message: ''
+      });
+      setErrors({});
+    } catch (error) {
+      alert('Erro ao enviar mensagem. Tente novamente mais tarde.');
+    }
     setIsSubmitting(false);
-    alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
-    
-    // Limpar formulário
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      company: '',
-      subject: '',
-      message: ''
-    });
   };
 
   return (
@@ -223,6 +248,7 @@ const ContactForm: React.FC = () => {
                   placeholder="Seu nome completo"
                   required
                 />
+                {errors.name && <span style={{ color: 'red', fontSize: '0.95rem' }}>{errors.name}</span>}
               </FormGroup>
               <FormGroup>
                 <Label htmlFor="email">E-mail *</Label>
@@ -235,6 +261,7 @@ const ContactForm: React.FC = () => {
                   placeholder="seu@email.com"
                   required
                 />
+                {errors.email && <span style={{ color: 'red', fontSize: '0.95rem' }}>{errors.email}</span>}
               </FormGroup>
             </FormGroup>
 
@@ -247,7 +274,7 @@ const ContactForm: React.FC = () => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  placeholder="(11) 99999-9999"
+                  placeholder="(55) 99949-1892 "
                 />
               </FormGroup>
               <FormGroup>
@@ -279,6 +306,7 @@ const ContactForm: React.FC = () => {
                 <option value="consultoria">Consultoria</option>
                 <option value="outros">Outros</option>
               </Select>
+              {errors.subject && <span style={{ color: 'red', fontSize: '0.95rem' }}>{errors.subject}</span>}
             </FormGroup>
 
             <FormGroup>
@@ -291,6 +319,7 @@ const ContactForm: React.FC = () => {
                 placeholder="Descreva suas necessidades ou dúvidas..."
                 required
               />
+              {errors.message && <span style={{ color: 'red', fontSize: '0.95rem' }}>{errors.message}</span>}
             </FormGroup>
 
             <SubmitButton type="submit" disabled={isSubmitting}>
