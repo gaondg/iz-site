@@ -38,15 +38,20 @@ const ProductCard = styled(motion.div)`
   border-radius: 20px;
   padding: 2rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e2e8f0;
   transition: all 0.3s ease;
+  border: 1px solid #e2e8f0;
 
   &:hover {
-    transform: translateY(-5px);
+    transform: translateY(-10px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   }
+  
+  @media (max-width: 500px) {
+    /* Limita o cartão a uma largura razoável para mobile (ex: 90% da tela) */
+    width: 90%; 
+    max-width: 400px;
+  }
 `;
-
 const ProductHeader = styled.div`
   display: flex;
   align-items: center;

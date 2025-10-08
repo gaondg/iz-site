@@ -9,6 +9,9 @@ import DashboardService from '../../components/Products/DashboardService';
 
 const ProductsContainer = styled.div`
   margin-top: 70px; /* Account for fixed header */
+  width: 100%; 
+  /* Adiciona esta regra para prevenir barras de rolagem horizontal indesejadas */
+  overflow-x: hidden; 
 `;
 
 const Products: React.FC = () => {

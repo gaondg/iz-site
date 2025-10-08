@@ -119,7 +119,7 @@ const Footer: React.FC = () => {
           <ul>
             <li><Link to="/contato">Fale Conosco</Link></li>
             <li>contato@izatacore.com</li>
-            <li>+55 (11) 99999-9999</li>
+            <li>+55 (55) 999491892</li>
           </ul>
         </FooterSection>
       </FooterContent>

@@ -211,8 +211,9 @@ const Hero: React.FC = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <img 
-            src="/kk.jpg"
+            src="/fotohero.webp"
             alt="Gráfico e visualizações de dados em uma tela de computador" 
+          
           />
       </FadedImageContainer>
 

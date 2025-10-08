@@ -133,21 +133,21 @@ const ContactInfo: React.FC = () => {
       icon: '📞',
       title: 'Telefone',
       description: 'Ligue para nós de segunda a sexta, das 9h às 18h.',
-      link: '+55 (11) 99999-9999',
-      href: 'tel:+5511999999999'
+      link: '+55 (55) 999491892',
+      href: 'tel:+5555999491892'
     },
     {
       icon: '💬',
       title: 'WhatsApp',
       description: 'Converse conosco pelo WhatsApp para atendimento rápido.',
-      link: '+55 (11) 99999-9999',
-      href: 'https://wa.me/5511999999999'
+      link: '+55 (55) 999491892',
+      href: 'https://wa.me/5555999491892'
     },
     {
       icon: '📍',
       title: 'Endereço',
-      description: 'Nossa sede está localizada em São Paulo, SP.',
-      link: 'São Paulo, SP - Brasil',
+      description: 'Nossa sede está localizada em Canos, RS.',
+      link: 'Canoas, RS - Brasil',
       href: '#'
     }
   ];

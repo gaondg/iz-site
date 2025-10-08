@@ -36,6 +36,16 @@ const ProductsGrid = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 2rem;
   margin-bottom: 4rem;
+
+  @media (max-width: 768px) {
+    /* Força o grid a ter no máximo 1 coluna ou muda para flexbox */
+    grid-template-columns: 1fr; 
+    
+    /* Centraliza o conteúdo horizontalmente se os itens não ocuparem 100% */
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+  }
 `;
 
 const ProductCard = styled(motion.div)`
@@ -49,6 +59,12 @@ const ProductCard = styled(motion.div)`
   &:hover {
     transform: translateY(-10px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  }
+  
+  @media (max-width: 500px) {
+    /* Limita o cartão a uma largura razoável para mobile (ex: 90% da tela) */
+    width: 90%; 
+    max-width: 400px;
   }
 `;
 

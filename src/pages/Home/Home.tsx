@@ -19,12 +19,29 @@ const Home: React.FC = () => {
     <HomeContainer>
       <SEO page="home" />
       <Hero />
-      <Suspense fallback={<div style={{padding: '2rem', textAlign: 'center'}}>Carregando...</div>}>
-        <About />
-        <Services />
-        <Products />
-        <Testimonials />
-        <CTA />
+      
+      {/* 🛑 AQUI ESTÁ A MUDANÇA: Cada componente deve ter seu próprio Suspense
+           para que a falha de carregamento de um (se houver) não afete os outros.
+           A ORDEM de carregamento ainda será sequencial.
+      */}
+      
+      {/* Para ganhos reais, você deve carregar estes módulos apenas no scroll,
+          mas se o objetivo é apenas garantir o Code Splitting, deixe assim: */}
+          
+      <Suspense fallback={null}>
+          <About />
+      </Suspense>
+      <Suspense fallback={null}>
+          <Services />
+      </Suspense>
+      <Suspense fallback={null}>
+          <Products />
+      </Suspense>
+      <Suspense fallback={null}>
+          <Testimonials />
+      </Suspense>
+      <Suspense fallback={null}>
+          <CTA />
       </Suspense>
     </HomeContainer>
   );

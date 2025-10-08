@@ -561,7 +561,7 @@ const FeaturedSmartAsset: React.FC = () => {
       { value: "60%", label: "Economia de Tempo" },
       { value: "24/7", label: "Monitoramento" },
     ],
-    imageSrc: "/login-smart.webp",
+    imageSrc: "/login.webp",
   }
 
   return (
